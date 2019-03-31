@@ -1,8 +1,10 @@
 package com.pardyl.shortener.persistence.entities
 
 import java.util.Date
+import javax.persistence.Cacheable
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -11,6 +13,7 @@ import javax.persistence.Temporal
 import javax.persistence.TemporalType
 
 @Entity
+@Cacheable
 data class Link(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +25,7 @@ data class Link(
     @Column(nullable = false)
     var url: String?,
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     var owner: User?,
 
     @Column(nullable = false)

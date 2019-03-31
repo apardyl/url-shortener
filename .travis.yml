@@ -11,6 +11,6 @@ deploy:
   - build/libs/shortener*
   - src/main/resources/application.properties
   on:
-    repo: apardyl/shortener
+    repo: apardyl/url-shortener
     tags: true
     branch: master
