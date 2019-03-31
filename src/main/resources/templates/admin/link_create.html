@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{admin/layout_admin}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create link</title>
+</head>
+<body>
+<div layout:fragment="content-admin">
+    <form th:action="@{/shortener/link/create/}" th:object="${link}" method="post" style="display: inline">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" th:field="*{name}" id="name"/>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>
+        </div>
+        <div class="form-group">
+            <label for="url">Url:</label>
+            <input type="text" class="form-control" th:field="*{url}" id="url"/>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('url')}" th:errors="*{url}">error</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shortener</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <ul class="nav nav-tabs mb-1">
+        <li class="nav nav-item">
+            <a class="nav-link"
+               th:classappend="${#httpServletRequest.getRequestURI().startsWith('/shortener/link') ? 'active':''}"
+               href="/shortener/links/">Links</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" sec:authorize="hasRole('ROLE_MANAGE_USERS')"
+               th:classappend="${#httpServletRequest.getRequestURI().startsWith('/shortener/user') ? 'active':''}"
+               href="/shortener/users/">Users</a>
+        </li>
+    </ul>
+    <div layout:fragment="content-admin">
+        <!--CONTENT-->
+    </div>
+</div>
+</body>
+</html>
