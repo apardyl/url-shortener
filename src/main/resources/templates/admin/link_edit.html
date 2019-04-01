@@ -10,12 +10,18 @@
         <input type="hidden" th:field="*{id}">
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" th:field="*{name}" id="name"/>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" th:text="${siteAddress}"></span>
+                </div>
+                <input type="text" pattern="[A-Za-z0-9_\-]+" title="Only letters, numbers, hyphen and underscore allowed"
+                       class="form-control" th:field="*{name}" id="name"/>
+            </div>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>
         </div>
         <div class="form-group">
             <label for="url">Url:</label>
-            <input type="text" class="form-control" th:field="*{url}" id="url"/>
+            <input type="url" class="form-control" th:field="*{url}" id="url"/>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('url')}" th:errors="*{url}">error</div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -37,7 +43,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <form th:action="@{'/shortener/link/'+ ${link.id} + '/delete/'}" method="post" style="display: inline">
+                    <form th:action="@{'/shortener/link/'+ ${link.id} + '/delete/'}" method="post"
+                          style="display: inline">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </div>

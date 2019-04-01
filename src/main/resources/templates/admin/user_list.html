@@ -9,7 +9,6 @@
     <table class="table">
         <thead>
         <tr class="table-active">
-            <td scope="col">Id</td>
             <td scope="col">Username</td>
             <td scope="col">Email</td>
             <td scope="col">First name</td>
@@ -21,8 +20,7 @@
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-            <td scope="row" th:text="${user.id}"></td>
-            <td th:text="${user.userName}"></td>
+            <td scope="row" th:text="${user.userName}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.lastName}"></td>
