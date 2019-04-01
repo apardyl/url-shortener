@@ -1,5 +1,6 @@
 package com.pardyl.shortener.persistence.entities
 
+import javax.persistence.Cacheable
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -11,7 +12,6 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 import org.hibernate.annotations.Cascade
 import org.hibernate.annotations.CascadeType
-import javax.persistence.Cacheable
 
 @Entity
 @Cacheable
