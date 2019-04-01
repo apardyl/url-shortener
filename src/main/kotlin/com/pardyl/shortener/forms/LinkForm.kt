@@ -15,5 +15,7 @@ data class LinkForm(
 
     val owner: String?,
 
-    val created: String?
+    val created: String?,
+
+    val visited: Long?
 )

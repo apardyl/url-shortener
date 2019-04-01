@@ -70,7 +70,7 @@ class LinksController(
             if (!canManageLinks() && u.owner!!.userName != getUsername()) {
                 throw BadRequestException("No link for id: $linkId")
             }
-            val linkForm = LinkForm(u.id, u.name!!, u.url!!, u.owner!!.userName, u.created.toString())
+            val linkForm = LinkForm(u.id, u.name!!, u.url!!, u.owner!!.userName, u.created.toString(), u.visited)
             return ModelAndView("admin/link_edit", mapOf("link" to linkForm, "siteAddress" to "$siteAddress/"))
         } else {
             throw BadRequestException("No link for id: $linkId")
@@ -126,9 +126,23 @@ class LinksController(
     }
 
     @Secured(Permission.ROLE_SHORTEN_STR)
+    @PostMapping("/shortener/link/{id}/reset/")
+    fun linkReset(
+        @PathVariable("id") linkId: Long
+    ): ModelAndView {
+        val link = linkRepository.findById(linkId).orElseThrow { BadRequestException("unknown link") }
+        if (!canManageLinks() && link.owner!!.userName != getUsername()) {
+            throw BadRequestException("No link for id: $linkId")
+        }
+        link.visited = 0
+        linkRepository.save(link)
+        return ModelAndView(RedirectView("/shortener/links/"))
+    }
+
+    @Secured(Permission.ROLE_SHORTEN_STR)
     @GetMapping("/shortener/link/create/")
     fun linkCreate(): ModelAndView {
-        return ModelAndView("admin/link_create", mapOf("link" to LinkForm(null, "", "", null, null),
+        return ModelAndView("admin/link_create", mapOf("link" to LinkForm(null, "", "", null, null, null),
             "siteAddress" to "$siteAddress/"))
     }
 

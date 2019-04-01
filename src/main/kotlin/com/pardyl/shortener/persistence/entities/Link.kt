@@ -30,5 +30,8 @@ data class Link(
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    var created: Date?
+    var created: Date?,
+
+    @Column(nullable = false)
+    var visited: Long? = 0
 )

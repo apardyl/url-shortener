@@ -11,8 +11,10 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 import org.hibernate.annotations.Cascade
 import org.hibernate.annotations.CascadeType
+import javax.persistence.Cacheable
 
 @Entity
+@Cacheable
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

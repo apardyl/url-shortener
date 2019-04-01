@@ -14,7 +14,8 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" th:text="${siteAddress}"></span>
                 </div>
-                <input type="text" pattern="[A-Za-z0-9_\-]+" title="Only letters, numbers, hyphen and underscore allowed"
+                <input type="text" pattern="[A-Za-z0-9_\-]+"
+                       title="Only letters, numbers, hyphen and underscore allowed"
                        class="form-control" th:field="*{name}" id="name"/>
             </div>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>
@@ -24,8 +25,15 @@
             <input type="url" class="form-control" th:field="*{url}" id="url"/>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('url')}" th:errors="*{url}">error</div>
         </div>
+        <div class="form-group">
+            <label for="visited">Visited:</label>
+            <input type="number" class="form-control" th:field="*{visited}" id="visited" readonly/>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#confirmReset">
+        Reset counter
+    </button>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">
         Delete
     </button>
@@ -46,6 +54,28 @@
                     <form th:action="@{'/shortener/link/'+ ${link.id} + '/delete/'}" method="post"
                           style="display: inline">
                         <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="confirmReset" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm action</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to reset visit counter for this link?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form th:action="@{'/shortener/link/'+ ${link.id} + '/reset/'}" method="post"
+                          style="display: inline">
+                        <button type="submit" class="btn btn-warning">Reset</button>
                     </form>
                 </div>
             </div>

@@ -11,6 +11,7 @@
         <tr class="table-active">
             <td scope="col">Name</td>
             <td scope="col">Url</td>
+            <td scope="col">Visited</td>
             <td scope="col">Owner</td>
             <td scope="col">Created</td>
             <td scope="col"></td>
@@ -20,6 +21,7 @@
         <tr th:each="link : ${links}">
             <td th:text="${link.name}"></td>
             <td th:text="${link.url}"></td>
+            <td th:text="${link.visited}"></td>
             <td th:text="${link.owner.userName}"></td>
             <td th:text="${link.created}"></td>
             <td><a class="btn btn-light" href="#" th:href="@{'/shortener/link/' + ${link.id} + '/'}"><i class="fas fa-edit"></i></a></td>

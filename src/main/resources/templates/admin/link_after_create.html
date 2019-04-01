@@ -9,7 +9,7 @@
     <div class="alert alert-success" role="alert">
         <div class="form-group">
             <label for="url">Shortened url:</label>
-            <input class="form-control form-control-lg" type="text" id="url" th:value="${url}" readonly>
+            <input class="form-control form-control-lg" type="url" id="url" th:value="${url}" readonly>
         </div>
     </div>
     <a class="btn btn-success" href="#" th:href="@{'/shortener/links/'}">Continue</a>

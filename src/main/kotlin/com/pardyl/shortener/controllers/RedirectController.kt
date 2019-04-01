@@ -14,6 +14,7 @@ class RedirectController(private val linkRepository: LinkRepository) {
     @GetMapping("/{name}")
     fun redirect(@PathVariable("name") name: String): View {
         val link = linkRepository.findByName(name) ?: throw NotFoundException(name)
+        linkRepository.incrementVisited(link.id!!)
         return RedirectView(link.url!!)
     }
 }
