@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.RedirectView
 
 @Controller
 class AdminController {
-    @GetMapping("/shortener/")
+    @GetMapping("/shortener/", "/shortener")
     fun adminPage(principal: Principal?): View {
         return RedirectView(if (principal == null) "/login/" else "/shortener/links/")
     }
