@@ -6,10 +6,12 @@ import com.pardyl.shortener.persistence.entities.Link
 import com.pardyl.shortener.persistence.entities.Permission
 import com.pardyl.shortener.persistence.repositories.LinkRepository
 import com.pardyl.shortener.persistence.repositories.UserRepository
+import com.pardyl.shortener.services.RandomStringGenerator
 import java.util.Date
 import javax.validation.Valid
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.core.context.SecurityContextHolder
@@ -28,11 +30,13 @@ import org.springframework.web.servlet.view.RedirectView
 class LinksController(
     private val linkRepository: LinkRepository,
     private val userRepository: UserRepository,
+    private val randomStringGenerator: RandomStringGenerator,
     @Value("\${shortener.site.address}") private val siteAddress: String
 ) {
     companion object {
         private const val linksPerPage = 100
         private val linkNameRegex = Regex("[A-Za-z0-9_\\-]+")
+        private const val defaultRandomNameLength = 6
     }
 
     private fun canManageLinks(): Boolean {
@@ -53,7 +57,7 @@ class LinksController(
     @GetMapping("/shortener/links/{num}/")
     fun linkList(@PathVariable("num") pageNumber: Int): ModelAndView {
         val links = if (canManageLinks()) {
-            linkRepository.findAll(PageRequest.of(pageNumber, linksPerPage))
+            linkRepository.findAll(PageRequest.of(pageNumber, linksPerPage, Sort.by(Sort.Direction.ASC, "name")))
         } else {
             linkRepository.findByOwner(userRepository.findByUserName(getUsername())!!,
                 PageRequest.of(pageNumber, linksPerPage))
@@ -142,7 +146,11 @@ class LinksController(
     @Secured(Permission.ROLE_SHORTEN_STR)
     @GetMapping("/shortener/link/create/")
     fun linkCreate(): ModelAndView {
-        return ModelAndView("admin/link_create", mapOf("link" to LinkForm(null, "", "", null, null, null),
+        var name = randomStringGenerator.randomAlphanumeric(defaultRandomNameLength)
+        while (linkRepository.findByName(name) != null) {
+            name = randomStringGenerator.randomAlphanumeric(defaultRandomNameLength)
+        }
+        return ModelAndView("admin/link_create", mapOf("link" to LinkForm(null, name, "", null, null, null),
             "siteAddress" to "$siteAddress/"))
     }
 
