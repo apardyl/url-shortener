@@ -50,6 +50,7 @@ class WebSecurityConfig(
             http.httpBasic().authenticationEntryPoint(casConfig.casAuthenticationEntryPoint())
                 .and().logout().logoutUrl("/logout/").logoutSuccessUrl("/logout/cas").permitAll()
                 .and().csrf().ignoringAntMatchers("/cas**")
+                .and().authorizeRequests().antMatchers("/login/").authenticated().anyRequest().permitAll()
                 .and().addFilterBefore(casConfig.singleSignOutFilter(), CasAuthenticationFilter::class.java)
                 .addFilterBefore(casConfig.logoutFilter(), LogoutFilter::class.java)
         } else {
@@ -57,8 +58,8 @@ class WebSecurityConfig(
                 .and().rememberMe().key(secret).tokenRepository(tokenRepository)
                 .userDetailsService(DelegatingUserDetailService())
                 .and().logout().logoutUrl("/logout/").permitAll()
+                .and().authorizeRequests().anyRequest().permitAll()
         }
-        http.authorizeRequests().anyRequest().permitAll()
     }
 
     override fun configure(web: WebSecurity) {
